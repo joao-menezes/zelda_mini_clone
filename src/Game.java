@@ -2,23 +2,30 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.*;
 import java.awt.image.BufferStrategy;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 
 public class Game extends Canvas implements Runnable, KeyListener {
 
 
-    public static int WIDHT = 480, HEIGHT = 480;
+    public static int WIDHT = 640, HEIGHT = 480;
+    public int result = WIDHT / 32;
+    public static int SCALE = 3;
     public Player player;
     public World world;
+    private static JMenuItem exit;
+    private static Game game;
+    private static JFrame frame;
+    private static JMenuBar menu_bar;
+    private static JMenu menu;
 
     public Game(){
         this.addKeyListener(this);
-        this.setPreferredSize(new Dimension(WIDHT, HEIGHT)); 
+        this.setPreferredSize(new Dimension(WIDHT, HEIGHT));
+        new Spritesheet();
         player = new Player(32,32);
         world = new World();
     }
@@ -36,8 +43,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.black);
-        g.fillRect(0, 0, WIDHT,HEIGHT);
+        g.setColor(Color.green);
+        g.fillRect(0, 0, WIDHT * SCALE,HEIGHT * SCALE);
 
         player.render(g);
         world.render(g);
@@ -46,11 +53,27 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     public static void main(String[] args){
-        Game game = new Game();
-        JFrame frame = new JFrame();
+        game = new Game();
+        frame = new JFrame();
+        menu_bar = new JMenuBar();
+        menu = new JMenu("Options");
+        exit = new JMenuItem("Exit");
+        menu.add(exit);
+        menu_bar.add(menu);
+        frame.setJMenuBar(menu_bar);
+
+        /*Exit Game*/
+        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+        exit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        /*Exit Game*/
 
         frame.add(game);
         frame.setTitle("Mini Zelda");
+        frame.setResizable(false);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(3);
@@ -75,13 +98,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
         
     }
 
-
+    //dont use but this.exist = true :)
     @Override
-    public void keyTyped(KeyEvent e) {
-
-        
-    }
-
+    public void keyTyped(KeyEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -91,19 +110,19 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A){
             player.left = true;
         }
-
         if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
             player.up = true;
         }else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){
             player.down = true;
         }
-
         if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
             player.spd = 8;
         }
+        if(e.getKeyCode() == KeyEvent.VK_J){
+            player.shoot = true;
+        }
         
     }
-
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -120,14 +139,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
             player.down = false;
         }
 
-        
         if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
             player.spd = 4;
         }
         
     }
-
-
-  
-  
 }
