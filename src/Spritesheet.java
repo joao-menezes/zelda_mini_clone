@@ -2,7 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 public class Spritesheet {
     public static BufferedImage sprite_Sheet,tille_wall;
-    public static BufferedImage[] player_front;
+    public static BufferedImage[] player_front,enemy_sheet_front;
 
     public Spritesheet() {
         try {
@@ -12,8 +12,15 @@ public class Spritesheet {
         }
 
         player_front = new BufferedImage[2];
+
+
         player_front[0] = Spritesheet.getSprite(0,11,16,16);
         player_front[1] = Spritesheet.getSprite(16,11,16,16);
+
+        enemy_sheet_front = new BufferedImage[2];
+        enemy_sheet_front[0] = Spritesheet.getSprite(315,153,16,16);
+        enemy_sheet_front[1] = Spritesheet.getSprite(333,153,16,16);
+
         tille_wall = Spritesheet.getSprite(261,241,16,16);
 
     }
