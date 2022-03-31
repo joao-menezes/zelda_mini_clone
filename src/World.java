@@ -2,6 +2,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class World {
 
@@ -24,6 +25,14 @@ public class World {
         for (int yy = 0;yy < 15; yy++) {
             blocos.add(new Blocks(640-32,yy*32));
         }
+
+        int rand = (int) Math.ceil(Math.random()*640-32 + 100);
+        int rand2 = (int) Math.ceil(Math.random()*480-32 + 100);
+        for (int i = 0;i < 10;i++){
+             //List<Blocks> blocos = new ArrayList<Blocks>();
+            blocos.add(new Blocks(rand,rand2));
+        }
+
     }
 
     public static boolean isFree(int x,int y) {

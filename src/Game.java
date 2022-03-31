@@ -16,20 +16,20 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static int WIDHT = 640, HEIGHT = 480;
     public int result = WIDHT / 32;
     public static int SCALE = 3;
-    public Player player;
+    public static Player player;
     public World world;
     private static JMenuItem exit;
     private static Game game;
     private static JFrame frame;
     private static JMenuBar menu_bar;
     private static JMenu menu;
-    public List<Enemy> Enemies = new ArrayList<Enemy>();
+    public List<Enemy> enemies = new ArrayList<Enemy>();
 
     public Game(){
         this.addKeyListener(this);
         this.setPreferredSize(new Dimension(WIDHT, HEIGHT));
         new Spritesheet();
-        Enemies.add(new Enemy(32,32));
+        enemies.add(new Enemy(32,32));
         player = new Player(32,32);
         world = new World();
     }
@@ -38,8 +38,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public void tick() {
         player.tick();
 
-        for (int i = 0; i < Enemies.size(); i++) {
-            Enemies.get(i).tick();
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).tick();
         }
     }
 
@@ -54,8 +54,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
         g.setColor(Color.green);
         g.fillRect(0, 0, WIDHT * SCALE,HEIGHT * SCALE);
 
-        for (int i = 0; i < Enemies.size(); i++) {
-            Enemies.get(i).render(g);
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).render(g);
         }
         player.render(g);
         world.render(g);
